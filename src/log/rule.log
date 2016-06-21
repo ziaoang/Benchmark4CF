@@ -1,0 +1,30 @@
+ml-100k
+====================
+global mean: 1.1380
+user mean: 1.0596
+item mean: 1.0354
+user item mean: 0.9983
+ml-1m
+====================
+global mean: 1.1154
+user mean: 1.0338
+item mean: 0.9764
+user item mean: 0.9548
+ml-10m
+====================
+global mean: 1.0613
+user mean: 0.9787
+item mean: 0.9438
+user item mean: 0.9133
+ml-20m
+====================
+global mean: 1.0519
+user mean: 0.9639
+item mean: 0.9418
+user item mean: 0.9054
+netflix
+====================
+global mean: 1.0853
+user mean: 0.9989
+item mean: 1.0113
+user item mean: 0.9640
