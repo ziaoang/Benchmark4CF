@@ -180,8 +180,7 @@ for t in test_set:
     test_df.write("%.1f 0 %d %d %s %s\n"%(rating, user_count, item_count, user_str, item_str))
 test_df.close()
 
-name = "ml-1m"
-print(name)
+print("ml-1m")
 print("="*20)
 
 os.system("%s/tools/make_feature_buffer %s %s"%(tool_path, train_file, train_buffer_file))

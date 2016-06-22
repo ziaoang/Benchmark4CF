@@ -1,9 +1,8 @@
+from collections import defaultdict
+import numpy as np
+import math
 import os
-import sys
-import load
-
-method_list = ["libfm sgd", "libfm als", "libfm mcmc"]
-dataset_list = ["ml-100k", "ml-1m", "ml-10m", "ml-20m", "netflix"]
+from load import load
 
 tmp_path = "tmp_libfm"
 
@@ -16,21 +15,11 @@ output_file = "%s/output.txt"%tmp_path
 
 tool_path = "../tool/libfm-1.42.src"
 
-rmse_score = defaultdict(lambda:defaultdict(list))
-mae_score = defaultdict(lambda:defaultdict(list))
-
-for dataset in dataset_list:
+df = open("log/libfm.log", "w")
+#for dataset in ["ml-100k", "ml-1m", "ml-10m", "ml-20m", "netflix"]:
+for dataset in ["ml-100k", "ml-1m", "ml-10m"]:
     for cross in range(5):
-        if dataset == "ml-100k":
-            train_set, test_set = load.load_ml_100k(random_seed=cross)
-        elif dataset == "ml-1m":
-            train_set, test_set = load.load_ml_1m(random_seed=cross)
-        elif dataset == "ml-10m":
-            train_set, test_set = load.load_ml_10m(random_seed=cross)
-        elif dataset == "ml-20m":
-            train_set, test_set = load.load_ml_20m(random_seed=cross)
-        elif dataset == "netflix":
-            train_set, test_set = load.load_netflix(random_seed=cross)
+        train_set, test_set = load(dataset, random_seed=cross)
 
         basic_pool = {}
         basic_index = 0
@@ -64,85 +53,44 @@ for dataset in dataset_list:
         basic_head = "%s/bin/libFM -task r -train %s -test %s -out %s"%(tool_path, train_file, test_file, output_file)
 
         os.system("%s -method sgd -learn_rate 0.01 -regular '0,0,0.01' -init_stdev 0.1"%basic_head)
-
-        rmse = 0
-        mae = 0
-        cnt = 0
+        rmse, mae, cnt = 0.0, 0.0, 0
         for line in open(output_file):
             cnt += 1
             rating = test_set[cnt-1][2]
             predict = float(line.strip())
-            rmse += (rating - truth) ** 2
-            mae += abs(rating - truth)
+            rmse += (rating - predict) ** 2
+            mae += abs(rating - predict)
         rmse = math.sqrt(rmse / cnt)
         mae = mae / cnt
-
-        rmse_score["libfm sgd"][dataset].append(rmse)
-        mae_score["libfm sgd"][dataset].append(mae)
+        df.write("%s\t%s\t%d\t%.4f\t%.4f\n"%("libfm sgd", dataset, cross+1, rmse, mae))
 
         os.system("%s -method als -regular '0,0,10' -init_stdev 0.1"%basic_head)
-
-        rmse = 0
-        mae = 0
-        cnt = 0
+        rmse, mae, cnt = 0.0, 0.0, 0
         for line in open(output_file):
             cnt += 1
             rating = test_set[cnt-1][2]
             predict = float(line.strip())
-            rmse += (rating - truth) ** 2
-            mae += abs(rating - truth)
+            rmse += (rating - predict) ** 2
+            mae += abs(rating - predict)
         rmse = math.sqrt(rmse / cnt)
         mae = mae / cnt
+        df.write("%s\t%s\t%d\t%.4f\t%.4f\n"%("libfm als", dataset, cross+1, rmse, mae))
         
-        rmse_score["libfm als"][dataset].append(rmse)
-        mae_score["libfm als"][dataset].append(mae)
-
         os.system("%s -method mcmc -init_stdev 0.1"%basic_head)
-
-        rmse = 0
-        mae = 0
-        cnt = 0
+        rmse, mae, cnt = 0.0, 0.0, 0
         for line in open(output_file):
             cnt += 1
             rating = test_set[cnt-1][2]
             predict = float(line.strip())
-            rmse += (rating - truth) ** 2
-            mae += abs(rating - truth)
+            rmse += (rating - predict) ** 2
+            mae += abs(rating - predict)
         rmse = math.sqrt(rmse / cnt)
         mae = mae / cnt
-        
-        rmse_score["libfm mcmc"][dataset].append(rmse)
-        mae_score["libfm mcmc"][dataset].append(mae)
-
-
-df = open("log/libfm.log", "w")
-
-df.write("### LibFM RMSE\n")
-df.write("||%s|\n"%("|".join(dataset_list)))
-df.write("|:-|-|-|-|-|-|\n")
-for method in method_list:
-    df.write("|%s|"%method)
-    for dataset in dataset_list:
-        mean = np.mean(rmse_score[method][dataset])
-        std = np.std(rmse_score[method][dataset])
-        df.write("%.4f $\pm$ %.4f|"%(mean, std))
-    df.write("\n")
-df.write("\n")
-
-df.write("### LibFM MAE\n")
-df.write("||%s|\n"%("|".join(dataset_list)))
-df.write("|:-|-|-|-|-|-|\n")
-for method in method_list:
-    df.write("|%s|"%method)
-    for dataset in dataset_list:
-        mean = np.mean(mae_score[method][dataset])
-        std = np.std(mae_score[method][dataset])
-        df.write("%.4f $\pm$ %.4f|"%(mean, std))
-    df.write("\n")
-df.write("\n")
+        df.write("%s\t%s\t%d\t%.4f\t%.4f\n"%("libfm mcmc", dataset, cross+1, rmse, mae))
 
 df.close()
 
 os.system("rm -r %s"%tmp_path)
+
 
 

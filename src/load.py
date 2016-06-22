@@ -1,5 +1,17 @@
 import random
 
+def load(dataset_name, random_seed=123456789):
+    if dataset_name == "ml-100k":
+        return load_ml_100k(random_seed=random_seed)
+    elif dataset_name == "ml-1m":
+        return load_ml_1m(random_seed=random_seed)
+    elif dataset_name == "ml-10m":
+        return load_ml_10m(random_seed=random_seed)
+    elif dataset_name == "ml-20m":
+        return load_ml_20m(random_seed=random_seed)
+    elif dataset_name == "netflix":
+        return load_netflix(random_seed=random_seed)
+
 def load_ml_100k(folder_path="../data/ml-100k", split_ratio=0.9, random_seed=123456789):
     data_set = []
     for line in open(folder_path+"/u.data"):

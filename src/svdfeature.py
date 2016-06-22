@@ -1,8 +1,5 @@
 import os
-import sys
-import load
-
-dataset_list = ["ml-100k", "ml-1m", "ml-10m", "ml-20m", "netflix"]
+from load import load
 
 tmp_path = "tmp_svdfeature"
 
@@ -17,18 +14,9 @@ conf_file = "%s/conf.txt"%tmp_path
 
 tool_path = "../tool/svdfeature-1.2.2"
 
-#for name in ["ml-100k", "ml-1m", "ml-10m", "ml-20m", "netflix"]:
-for name in ["ml-1m"]:
-    if name == "ml-100k":
-        train_set, test_set = load.load_ml_100k()
-    elif name == "ml-1m":
-        train_set, test_set = load.load_ml_1m()
-    elif name == "ml-10m":
-        train_set, test_set = load.load_ml_10m()
-    elif name == "ml-20m":
-        train_set, test_set = load.load_ml_20m()
-    elif name == "netflix":
-        train_set, test_set = load.load_netflix()
+#for dataset in ["ml-100k", "ml-1m", "ml-10m", "ml-20m", "netflix"]:
+for dataset in ["ml-1m"]:
+    train_set, test_set = load(dataset)
 
     max_user_index = 0
     max_item_index = 0
@@ -62,9 +50,6 @@ for name in ["ml-1m"]:
         user_id, item_id, rating = t
         test_df.write("%.1f 0 1 1 %d:1 %d:1\n"%(rating, user_id, item_id))
     test_df.close()
-
-    print(name)
-    print("="*20)
 
     os.system("%s/tools/make_feature_buffer %s %s"%(tool_path, train_file, train_buffer_file))
     os.system("%s/tools/make_feature_buffer %s %s"%(tool_path, test_file, test_buffer_file))
