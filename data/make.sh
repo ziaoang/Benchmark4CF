@@ -38,12 +38,11 @@ if [ ! -d download ]; then
     if [ ! -f nf_prize_dataset.tar.gz ]; then
         echo "download nf_prize_dataset.tar.gz ..."
         aria2c --seed-time 0 http://academictorrents.com/download/9b13183dc4d60676b773c9e2cd6de5e5542cee9a.torrent
+        rm 9b13183dc4d60676b773c9e2cd6de5e5542cee9a.torrent
     fi
     echo "uncompress nf_prize_dataset.tar.gz ..."
     tar -zxvf nf_prize_dataset.tar.gz
     cd download
     tar -xvf training_set.tar
     cd ..
-    rm 9b13183dc4d60676b773c9e2cd6de5e5542cee9a.torrent
 fi
-

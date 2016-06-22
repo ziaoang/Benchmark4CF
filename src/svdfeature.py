@@ -2,6 +2,8 @@ import os
 import sys
 import load
 
+dataset_list = ["ml-100k", "ml-1m", "ml-10m", "ml-20m", "netflix"]
+
 tmp_path = "tmp_svdfeature"
 
 if not os.path.isdir(tmp_path):
