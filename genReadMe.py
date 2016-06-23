@@ -13,11 +13,11 @@ method_list = ["global mean", "user mean", "item mean", "user item mean", "libmf
 dataset_list = ["ml-100k", "ml-1m", "ml-10m"]
 
 out = ""
-out += "# Benchmark4CF\n"
+out += "# Benchmark4CF\n\n"
 
 out += "## RMSE\n"
-out += "|-|%s|\n"%("|".join(dataset_list))
-out += "|:-|%s|\n"%("|".join([":-:" for d in dataset_list ]))
+out += "||%s|\n"%("|".join(dataset_list))
+out += "|:----|%s|\n"%("|".join([":----:" for d in dataset_list ]))
 for method in method_list:
     out += "|%s|"%method
     for dataset in dataset_list:
@@ -25,10 +25,11 @@ for method in method_list:
         std = np.std(rmse_dict[method][dataset])
         out += "%.4f $\pm$ %.4f|"%(mean, std)
     out += "\n"
+out += "\n"
 
 out += "## MAE\n"
-out += "|-|%s|\n"%("|".join(dataset_list))
-out += "|:-|%s|\n"%("|".join([":-:" for d in dataset_list ]))
+out += "||%s|\n"%("|".join(dataset_list))
+out += "|:----|%s|\n"%("|".join([":----:" for d in dataset_list ]))
 for method in method_list:
     out += "|%s|"%method
     for dataset in dataset_list:
@@ -36,6 +37,7 @@ for method in method_list:
         std = np.std(mae_dict[method][dataset])
         out += "%.4f $\pm$ %.4f|"%(mean, std)
     out += "\n"
+out += "\n"
 
 df = open("README.md", "w")
 df.write(out)
