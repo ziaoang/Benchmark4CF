@@ -22,8 +22,7 @@ for method in method_list:
     out += "|%s|"%method
     for dataset in dataset_list:
         mean = np.mean(rmse_dict[method][dataset])
-        std = np.std(rmse_dict[method][dataset])
-        out += "%.4f $\pm$ %.4f|"%(mean, std)
+        out += "%.4f|"%mean
     out += "\n"
 out += "\n"
 
@@ -34,8 +33,7 @@ for method in method_list:
     out += "|%s|"%method
     for dataset in dataset_list:
         mean = np.mean(mae_dict[method][dataset])
-        std = np.std(mae_dict[method][dataset])
-        out += "%.4f $\pm$ %.4f|"%(mean, std)
+        out += "%.4f|"%mean
     out += "\n"
 out += "\n"
 
