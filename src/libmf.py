@@ -17,8 +17,7 @@ output_file = "%s/output.txt"%tmp_path
 tool_path = "../tool/libmf-2.01"
 
 df = open("log/libmf.log", "w")
-#for dataset in ["ml-100k", "ml-1m", "ml-10m", "ml-20m", "netflix"]:
-for dataset in ["ml-100k", "ml-1m", "ml-10m"]:
+for dataset in ["ml-100k", "ml-1m", "ml-10m", "ml-20m", "netflix"]:
     for cross in range(5):
         train_set, test_set = load(dataset, random_seed=cross)
 

@@ -13,3 +13,13 @@ libmf	ml-10m	2	0.8279	0.6458
 libmf	ml-10m	3	0.8279	0.6464
 libmf	ml-10m	4	0.8297	0.6476
 libmf	ml-10m	5	0.8288	0.6471
+libmf	ml-20m	1	0.8219	0.6378
+libmf	ml-20m	2	0.8216	0.6380
+libmf	ml-20m	3	0.8218	0.6381
+libmf	ml-20m	4	0.8224	0.6385
+libmf	ml-20m	5	0.8231	0.6389
+libmf	netflix	1	0.8800	0.6960
+libmf	netflix	2	0.8793	0.6954
+libmf	netflix	3	0.8786	0.6950
+libmf	netflix	4	0.8786	0.6950
+libmf	netflix	5	0.8796	0.6957
