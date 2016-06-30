@@ -35,10 +35,12 @@ for method in method_list:
         mean = np.mean(mae_dict[method][dataset])
         out += "%.4f|"%mean
     out += "\n"
-out += "\n"
+out += "\n\n\n"
 
 df = open("README.md", "w")
 df.write(out)
+content = open("paper/paper.log").read()
+df.write(content)
 df.close()
 
 
