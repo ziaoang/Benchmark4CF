@@ -28,7 +28,7 @@
 
 
 
-#state-of-the-art
+# State-Of-The-Art
 
 ## MovieLens 1M
 |METHOD|TEST RMSE|
