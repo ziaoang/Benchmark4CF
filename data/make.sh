@@ -1,3 +1,35 @@
+if [ ! -d jester ]; then
+    mkdir jester
+    
+    if [ ! -f jester_dataset_1_1.zip ]; then
+        echo "download jester_dataset_1_1.zip ..."
+        wget http://eigentaste.berkeley.edu/dataset/jester_dataset_1_1.zip
+    fi
+    echo "uncompress jester_dataset_1_1.zip ..."
+    unzip -o -d jester jester_dataset_1_1.zip
+    
+    if [ ! -f jester_dataset_1_2.zip ]; then
+        echo "download jester_dataset_1_2.zip ..."
+        wget http://eigentaste.berkeley.edu/dataset/jester_dataset_1_2.zip
+    fi
+    echo "uncompress jester_dataset_1_2.zip ..."
+    unzip -o -d jester jester_dataset_1_2.zip
+    
+    if [ ! -f jester_dataset_1_3.zip ]; then
+        echo "download jester_dataset_1_3.zip ..."
+        wget http://eigentaste.berkeley.edu/dataset/jester_dataset_1_3.zip
+    fi
+    echo "uncompress jester_dataset_1_3.zip ..."
+    unzip -o -d jester jester_dataset_1_3.zip
+    
+    if [ ! -f jester_dataset_1_joke_texts.zip ]; then
+        echo "jester_dataset_1_joke_texts.zip ..."
+        wget http://eigentaste.berkeley.edu/dataset/jester_dataset_1_joke_texts.zip
+    fi
+    echo "uncompress jester_dataset_1_joke_texts.zip ..."
+    unzip -o -d jester jester_dataset_1_joke_texts.zip
+fi
+
 if [ ! -d ml-100k ]; then
     if [ ! -f ml-100k.zip ]; then
         echo "download ml-100k.zip ..."

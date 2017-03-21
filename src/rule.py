@@ -4,7 +4,8 @@ import numpy as np
 import math
 
 df = open("log/rule.log", "w")
-for dataset in ["ml-100k", "ml-1m", "ml-10m", "ml-20m", "netflix"]:
+#for dataset in ["ml-100k", "ml-1m", "ml-10m", "ml-20m", "netflix"]:
+for dataset in ["jester"]:
     for cross in range(5):
         train_set, test_set = load(dataset, random_seed=cross)
 

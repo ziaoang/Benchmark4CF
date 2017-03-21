@@ -1,7 +1,10 @@
+import xlrd
 import random
 
 def load(dataset_name, random_seed=123456789):
-    if dataset_name == "ml-100k":
+    if dataset_name == "jester":
+        return load_jester(random_seed=random_seed)
+    elif dataset_name == "ml-100k":
         return load_ml_100k(random_seed=random_seed)
     elif dataset_name == "ml-1m":
         return load_ml_1m(random_seed=random_seed)
@@ -11,6 +14,24 @@ def load(dataset_name, random_seed=123456789):
         return load_ml_20m(random_seed=random_seed)
     elif dataset_name == "netflix":
         return load_netflix(random_seed=random_seed)
+
+def load_jester(folder_path="../data/jester", split_ratio=0.9, random_seed=123456789):
+    matrix = []
+    for index in range(3):
+        data = xlrd.open_workbook("../data/jester/jester-data-%d.xls" % (index + 1))
+        table = data.sheets()[0]
+        for i in range(table.nrows):
+            row = []
+            for j in range(1, table.ncols):
+                v = table.cell(i, j).value
+                row.append(v)
+            matrix.append(row)
+    data_set = []
+    for i in range(len(matrix)):
+        for j in range(len(matrix[i])):
+            if matrix[i][j] < 50:
+                data_set.append([i, j, matrix[i][j]])
+    return process2(data_set, split_ratio, random_seed)
 
 def load_ml_100k(folder_path="../data/ml-100k", split_ratio=0.9, random_seed=123456789):
     data_set = []
@@ -73,6 +94,34 @@ def process(data_set, split_ratio, random_seed):
             global_item_index += 1
         user_index = user_id_user_index[user_id]
         item_index = item_id_item_index[item_id]
+        map_data_set.append([user_index, item_index, float(rating)])
+    # shuffle data
+    random.seed(random_seed)
+    random.shuffle(map_data_set)
+    # load train set
+    train_set = []
+    user_set = set()
+    item_set = set()
+    for t in map_data_set[:int(len(map_data_set) * split_ratio)]:
+        user_index, item_index, rating = t
+        train_set.append(t)
+        user_set.add(user_index)
+        item_set.add(item_index)
+    # load test set
+    test_set = []
+    for t in map_data_set[int(len(map_data_set) * split_ratio):]:
+        user_index, item_index, rating = t
+        if user_index in user_set and item_index in item_set:
+            test_set.append(t)
+    return train_set, test_set
+
+def process2(data_set, split_ratio, random_seed):
+    # map data
+    map_data_set = []
+    for t in data_set:
+        user_id, item_id, rating = t
+        user_index = int(user_id)
+        item_index = int(item_id)
         map_data_set.append([user_index, item_index, float(rating)])
     # shuffle data
     random.seed(random_seed)

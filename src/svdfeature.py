@@ -16,7 +16,8 @@ conf_file = "%s/conf.txt"%tmp_path
 tool_path = "../tool/svdfeature-1.2.2"
 
 df = open("log/svdfeature.log", "w")
-for dataset in ["ml-100k", "ml-1m", "ml-10m", "ml-20m", "netflix"]:
+#for dataset in ["ml-100k", "ml-1m", "ml-10m", "ml-20m", "netflix"]:
+for dataset in ["jester"]:
     for cross in range(5):
         train_set, test_set = load(dataset, random_seed=cross)
 
